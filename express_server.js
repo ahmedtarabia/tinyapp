@@ -43,16 +43,26 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
+  
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL];
+    if ( !longURL ) {
+      return res.status(404).send("Error: Long URL not found. ")
+    }
   res.redirect(longURL);
+  
 });
 
 app.post("/urls", (req, res) => {
+  
   const templateVars = { shortURL: generateRandomString(), longURL: req.body.longURL };
   const shortURL =  templateVars.shortURL;
   urlDatabase[shortURL] =  templateVars.longURL;
   res.redirect("/urls/" + shortURL);
+});
+
+app.get('*', function(req, res) {
+  res.status(404).send('404: shortURL not found.');
 });
 
 app.listen(PORT, () => {
