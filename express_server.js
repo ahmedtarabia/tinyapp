@@ -108,7 +108,6 @@ app.get("/urls", (req, res) => {
     urls: urls,
     user: user
   };
-  console.log("urls4user/urls----->",urlsForUser(req.cookies['user_id']))
   if ( !req.cookies['user_id'] ) {
     res.status(403).send("You should login / register first.");
     return;
@@ -178,9 +177,6 @@ app.post("/urls", (req, res) => {
 
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL;
-  console.log("urlDatabase--->",urlDatabase)
-  console.log("ShortURL--->",shortURL)
-  console.log("req.cookies--->",req.cookies['user_id'])
   if ( req.cookies['user_id'] === urlDatabase[shortURL].userID ) {
     delete urlDatabase[shortURL];
     res.redirect("/urls/");
@@ -193,9 +189,6 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 app.post("/urls/:shortURL/edit", (req, res) => {
   const shortURL = req.params.shortURL;
-  console.log("urlDatabase--->",urlDatabase)
-  console.log("ShortURL--->",shortURL)
-  console.log("req.cookies--->",req.cookies['user_id'])
   if (req.cookies['user_id'] === urlDatabase[shortURL].userID) {
     urlDatabase[shortURL] = {longURL: req.body.longURL, userID: req.cookies['user_id']};
     res.redirect("/urls/" + shortURL);
@@ -211,9 +204,7 @@ app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  // if(!email || !password) return res.status(404).send('Invalid email or password')
   const user = authenticateUser(email, password, users);
-  // console.log('user from login', user)
   if (user) {
     res.cookie('user_id', user.userId);
     res.redirect("/urls");
