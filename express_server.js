@@ -178,19 +178,33 @@ app.post("/urls", (req, res) => {
 
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL;
+  console.log("urlDatabase--->",urlDatabase)
+  console.log("ShortURL--->",shortURL)
+  console.log("req.cookies--->",req.cookies['user_id'])
   if ( req.cookies['user_id'] === urlDatabase[shortURL].userID ) {
     delete urlDatabase[shortURL];
     res.redirect("/urls/");
+    return;
   } else {
     res.status(403).send("Not allowed to delete this URL");
     return;
   }
 });
 
-app.post("/urls/:shortURL", (req, res) => {
+app.post("/urls/:shortURL/edit", (req, res) => {
   const shortURL = req.params.shortURL;
-  urlDatabase[shortURL] = {longURL: req.body.longURL, userId: req.cookies['user_id']};
-  res.redirect("/urls/" + shortURL);
+  console.log("urlDatabase--->",urlDatabase)
+  console.log("ShortURL--->",shortURL)
+  console.log("req.cookies--->",req.cookies['user_id'])
+  if (req.cookies['user_id'] === urlDatabase[shortURL].userID) {
+    urlDatabase[shortURL] = {longURL: req.body.longURL, userID: req.cookies['user_id']};
+    res.redirect("/urls/" + shortURL);
+    return;
+  } else {
+    res.status(403).send("Not allowed to edit this URL");
+    return;
+  }
+  
 });
 
 app.post("/login", (req, res) => {
