@@ -35,6 +35,13 @@ Finally, you can log out whenever you are done using the app!
 - body-parser
 - cookie-session
 
+## Optimization
+
+This project can be improved in the following ways: 
+- The UI / UX can be more user friendly with images of the actual website. 
+- A database like mongodb to store user's information for future use. 
+- Fix a cookie bug. 🍪
+
 ## Getting Started
 
 - Install all dependencies (using the `npm install` command).
