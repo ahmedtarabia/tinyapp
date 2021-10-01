@@ -92,7 +92,7 @@ app.get("/urls/new", (req, res) => {
 
 //gets hello! testing purposes
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.redirect("/register");
 });
 
 //testing purposes
